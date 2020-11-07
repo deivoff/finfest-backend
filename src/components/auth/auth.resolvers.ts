@@ -28,27 +28,5 @@ export class AuthResolvers {
       token
     }
   }
-  // googleOAuth = new GoogleOAuth();
-
-  // @Query(() => AuthRedirect)
-  // async getGoogleOAuthRedirect(): Promise<AuthRedirect> {
-  //   return {
-  //     url: this.googleOAuth.urlGoogle(),
-  //   };
-  // }
-  //
-  // @Mutation(() => AuthResponse)
-  // async authGoogle(@Arg('code') code: string): Promise<AuthResponse> {
-  //   try {
-  //     const { accessToken, refreshToken, profile } = await this.googleOAuth.serializeAccountFromCode(code);
-  //     const user = await User.upsetGoogleUser({ accessToken, refreshToken, profile });
-  //     const token = user.generateJWT();
-  //     return {
-  //       token,
-  //     }!;
-  //   } catch (error) {
-  //     return error;
-  //   }
-  // }
 
 }

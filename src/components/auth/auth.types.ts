@@ -25,7 +25,7 @@ export interface AuthData {
 
 export interface DecodedToken {
   id: string;
-  email: string;
+  email?: string;
   name: UserName;
   photos?: UserPhoto[];
   exp: number;

@@ -32,7 +32,7 @@ export const createApp = async () => {
       AuthResolvers,
       UserResolvers
     ],
-    emitSchemaFile: true,
+    emitSchemaFile: !CONFIG.isProd,
     validate: false,
     globalMiddlewares: [
       TypegooseMiddleware,
@@ -69,7 +69,7 @@ export const createApp = async () => {
         request,
         dataloaders: new WeakMap(),
       }),
-    playground: CONFIG.env === 'development',
+    playground: true,
     introspection: true,
   });
   app.use(router.routes());

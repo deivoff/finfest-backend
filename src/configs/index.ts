@@ -22,6 +22,7 @@ export default {
   dbPass,
   originUrl,
   secretKey,
+  isProd: env === 'production',
   vkConfig: {
     clientId: vkClientID,
     clientSecret: vkClientSecret,

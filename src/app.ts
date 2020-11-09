@@ -42,7 +42,7 @@ export const createApp = async () => {
 
   app.use(
     cors({
-      origin: CONFIG.originUrl,
+      origin: '*',
       credentials: true,
     }),
   );

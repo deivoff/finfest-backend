@@ -81,7 +81,7 @@ export class VKClient {
   private readonly clientId: string;
   private readonly secret: string;
   private readonly uri: string;
-  private apiOptions: Options = {
+  private readonly apiOptions: Options = {
     oauthUrl: 'https://oauth.vk.com/',
     apiUrl: 'https://api.vk.com/',
     version: '5.124',
@@ -91,14 +91,17 @@ export class VKClient {
     clientId: string,
     clientSecret: string,
     redirectUri: string,
-    apiOptions?: Options
+    apiOptions?: Partial<Options>
   ) {
     this.clientId = clientId;
     this.secret = clientSecret;
     this.uri = redirectUri;
 
     if (apiOptions) {
-      this.apiOptions = apiOptions
+      this.apiOptions = {
+        ...this.apiOptions,
+        ...apiOptions
+      };
     }
   }
 
@@ -119,7 +122,7 @@ export class VKClient {
   generateAuthUrl({
     scope,
     ...rest
-                  }: AuthURLParams) {
+  }: AuthURLParams) {
     const url = this.getOAuthMethod(OAuthMethods.authorize);
     const scopeBitMask = scope ? Array.isArray(scope)
       ? scope.reduce<number>((acc, s) =>  (1 << s) + acc, 0)
@@ -176,10 +179,8 @@ export class VKClient {
       access_token: token,
     });
 
-    console.log(query);
     const res = await fetch(uri + '?' + query);
     const { response } = await res.json();
     return response;
   }
 }
-

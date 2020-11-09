@@ -72,6 +72,10 @@ export class User {
   @Property({ _id: false })
   social!: UserSocial;
 
+  @Field({ nullable: true })
+  @Property()
+  score?: number;
+
   generateJWT() {
     return jwt.sign(
       {

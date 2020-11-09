@@ -9,6 +9,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --watch --mode development",
+    "tunnel": "npx lt -p 7000 -s fin-fest",
     "build": "webpack --mode production",
     "lint": "eslint --format codeframe --ext ts src",
     "lint:fix": "npm run lint -- --fix"

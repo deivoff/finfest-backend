@@ -15,6 +15,7 @@ import { ApolloContext, Context } from '$types/index';
 import { authChecker, isAuth, TypegooseMiddleware } from '$middleware/index';
 import { AuthResolvers } from '$components/auth';
 import { UserResolvers } from '$components/user';
+import { ChatResolver } from '$components/chat';
 
 
 export const createApp = async () => {
@@ -30,7 +31,8 @@ export const createApp = async () => {
   const schema = await buildSchema({
     resolvers: [
       AuthResolvers,
-      UserResolvers
+      UserResolvers,
+      ChatResolver,
     ],
     emitSchemaFile: !CONFIG.isProd,
     validate: false,
@@ -91,5 +93,5 @@ export const createApp = async () => {
     console.error(error);
   }
 
-  return app;
+  return { app, schema };
 };

@@ -9,6 +9,7 @@ const {
   'DB_PASS': dbPass,
   'DB_USER': dbUser,
   'ORIGIN_URL': originUrl,
+  'WS_ORIGIN_URL': wsOriginUrl,
   'SECRET_KEY': secretKey,
   'VK_CLIENT_ID': vkClientID,
   'VK_CLIENT_SECRET': vkClientSecret,
@@ -20,7 +21,10 @@ export default {
   dbUrl,
   dbUser,
   dbPass,
-  originUrl,
+  urls: {
+    ws: wsOriginUrl,
+    http: originUrl,
+  },
   secretKey,
   isProd: env === 'production',
   vkConfig: {

@@ -85,7 +85,7 @@ export class User {
         id: this._id,
       },
       CONFIG.secretKey!,
-    { expiresIn: '1h' },
+    { expiresIn: '20d' },
     );
   }
 

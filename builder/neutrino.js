@@ -1,7 +1,7 @@
 const path = require('path');
 const node = require('@neutrinojs/node');
 const airbnb = require('@neutrinojs/airbnb');
-
+const copy = require('@neutrinojs/copy');
 const nodeExternals = require('webpack-node-externals');
 const terserPlugin = require('terser-webpack-plugin');
 
@@ -89,12 +89,19 @@ const nodeTypescript = neutrino => {
     .merge(['.ts', '.js']);
   neutrino.config.externals([nodeExternals()])
 };
-
 module.exports = {
   use: [
     eslintTypescript,
     node({
       clean: true
+    }),
+    copy({
+      patterns: [
+        {
+          from: 'src/static/',
+          to: 'static/'
+        }
+      ]
     }),
     resolveTsAliases('./../tsconfig.json'),
     nodeTypescript,

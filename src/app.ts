@@ -16,6 +16,7 @@ import { authChecker, isAuth, TypegooseMiddleware } from '$middleware/index';
 import { AuthResolvers } from '$components/auth';
 import { UserResolvers } from '$components/user';
 import { ChatResolver } from '$components/chat';
+import { ReviewResolver } from '$components/review';
 
 
 export const createApp = async () => {
@@ -33,6 +34,7 @@ export const createApp = async () => {
       AuthResolvers,
       UserResolvers,
       ChatResolver,
+      ReviewResolver
     ],
     emitSchemaFile: !CONFIG.isProd,
     validate: false,

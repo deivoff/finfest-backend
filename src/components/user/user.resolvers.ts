@@ -1,18 +1,24 @@
-import { Resolver, Query } from 'type-graphql';
+import { Resolver, Query, Subscription } from 'type-graphql';
 
-import { User } from '.';
-import { UserModel } from './user.entity';
+import { User, UserModel } from '.';
 
 @Resolver(() => User)
 export class UserResolvers {
 
-  @Query(() => [User])
-  async users() {
+  @Query(() => Number)
+  async usersCount() {
     try {
-      return await UserModel.find();
+      return await UserModel.countDocuments();
     } catch (error) {
       throw error;
     }
+  }
+
+  @Subscription(() => Boolean, {
+    topics: 'NEW_USER',
+  })
+  async newUserRegistered() {
+    return true;
   }
 
 }

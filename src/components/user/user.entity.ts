@@ -91,11 +91,13 @@ export class User {
 
   static async upsetVKUser({ accessToken, profile: {
     name, id, photos
-  } }: AuthData) {
+  } }: AuthData, onNewUser?: () => void) {
     try {
       const user = await UserModel.findOne({ 'social.vkProvider.id': id });
-
       if (!user) {
+        if (onNewUser) {
+          onNewUser();
+        }
         return await UserModel.create({
           name,
           // @ts-ignore

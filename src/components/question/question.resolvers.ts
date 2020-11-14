@@ -1,7 +1,6 @@
 import { Args, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
 import _ from 'lodash';
 import { ApolloContext } from '$types/index';
-import { GraphQLJSON } from '$helpers/scalars';
 import { User, UserModel } from '$components/user';
 
 import { Question, Result } from './question.entity';

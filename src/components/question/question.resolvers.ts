@@ -46,8 +46,8 @@ export class QuestionResolver {
       // from mongodb
       const userObj: User = user?.toObject();
       const newUserAnswers = userObj?.answers ? {
-        ...userObj.answers,
         ...answers,
+        ...userObj.answers,
       } : answers;
 
       const result = Object.keys(answers).reduce((acc, answerKey) => {

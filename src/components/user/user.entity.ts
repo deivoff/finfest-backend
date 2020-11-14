@@ -72,6 +72,9 @@ export class User {
   @Property({ _id: false })
   social!: UserSocial;
 
+  @Property({ type: Number })
+  answers?: Map<string, number>;
+
   @Field({ nullable: true })
   @Property()
   score?: number;

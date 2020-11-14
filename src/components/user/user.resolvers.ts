@@ -1,6 +1,7 @@
-import { Resolver, Query, Subscription } from 'type-graphql';
+import { Resolver, Query, Subscription, Authorized, Ctx } from 'type-graphql';
 
 import { User, UserModel } from '.';
+import { ApolloContext } from '$types/index';
 
 @Resolver(() => User)
 export class UserResolvers {
@@ -19,6 +20,15 @@ export class UserResolvers {
   })
   async newUserRegistered() {
     return true;
+  }
+
+  @Authorized()
+  @Query(() => Number)
+  async getUserScore(
+    @Ctx() { state }: ApolloContext,
+  ): Promise<number> {
+    const user = await UserModel.findById(state.decodedUser?.id);
+    return user?.score || 0
   }
 
 }

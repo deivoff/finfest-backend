@@ -17,6 +17,7 @@ import { AuthResolvers } from '$components/auth';
 import { UserResolvers } from '$components/user';
 import { ChatResolver } from '$components/chat';
 import { ReviewResolver } from '$components/review';
+import { QuestionResolver } from '$components/question';
 
 
 export const createApp = async () => {
@@ -34,7 +35,8 @@ export const createApp = async () => {
       AuthResolvers,
       UserResolvers,
       ChatResolver,
-      ReviewResolver
+      ReviewResolver,
+      QuestionResolver,
     ],
     emitSchemaFile: !CONFIG.isProd,
     validate: false,

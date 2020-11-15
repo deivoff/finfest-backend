@@ -14,7 +14,10 @@ class Answer {
 export class Result {
 
   @Field()
-  score!: number;
+  newUserScore!: number;
+
+  @Field()
+  correctAnswers!: number;
 
 }
 

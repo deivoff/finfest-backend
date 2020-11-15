@@ -79,6 +79,10 @@ export class User {
   @Property()
   score?: number;
 
+  @Field(() => [String],{ nullable: true })
+  @Property({ required: false, type: () => [String] })
+  productCodes?: string[];
+
   generateJWT() {
     return jwt.sign(
       {

@@ -1,6 +1,6 @@
-import { Resolver, Query, Subscription, Authorized, Ctx } from 'type-graphql';
-
-import { User, UserModel } from '.';
+import { Resolver, Query, Subscription, Authorized, Ctx, Info } from 'type-graphql';
+import { GraphQLResolveInfo } from 'graphql';
+import { getUserLoader, User, UserModel } from '.';
 import { ApolloContext } from '$types/index';
 
 @Resolver(() => User)
@@ -25,10 +25,23 @@ export class UserResolvers {
   @Authorized()
   @Query(() => Number)
   async getUserScore(
-    @Ctx() { state }: ApolloContext,
+    @Ctx() context: ApolloContext,
+    @Info() info: GraphQLResolveInfo,
   ): Promise<number> {
-    const user = await UserModel.findById(state.decodedUser?.id);
+    const dl = getUserLoader(info.fieldNodes, context);
+    const user = await dl.load(context.state.decodedUser?.id!);
     return user?.score || 0
+  }
+
+  @Authorized()
+  @Query(() => [String])
+  async getUserProductCodes(
+    @Ctx() context: ApolloContext,
+    @Info() info: GraphQLResolveInfo,
+  ): Promise<string[]> {
+    const dl = getUserLoader(info.fieldNodes, context);
+    const user = await dl.load(context.state.decodedUser?.id!);
+    return user?.productCodes || [];
   }
 
 }

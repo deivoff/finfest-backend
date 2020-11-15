@@ -93,7 +93,7 @@ module.exports = {
   use: [
     eslintTypescript,
     node({
-      clean: true
+      clean: true,
     }),
     copy({
       patterns: [

@@ -1,12 +1,13 @@
-import { Args, Authorized, Ctx, Mutation, Query, Resolver } from 'type-graphql';
+import { Args, Authorized, Ctx, Info, Mutation, Query, Resolver } from 'type-graphql';
 import _ from 'lodash';
 import { ApolloContext } from '$types/index';
-import { User, UserModel } from '$components/user';
+import { getUserLoader, User } from '$components/user';
 
 import { Question, Result } from './question.entity';
 
 import { questions, correctAnswers } from './questions';
 import { Answers } from '$components/question/question.args';
+import { GraphQLResolveInfo } from 'graphql';
 
 @Resolver(() => Question)
 export class QuestionResolver {
@@ -14,10 +15,12 @@ export class QuestionResolver {
   @Authorized()
   @Query(() => [Question])
   async questions(
-    @Ctx() { state }: ApolloContext,
+    @Ctx() context: ApolloContext,
+    @Info() info: GraphQLResolveInfo,
   ): Promise<Question[]> {
     try {
-      const user = await UserModel.findById(state.decodedUser!.id!);
+      const dl = getUserLoader(info.fieldNodes, context);
+      const user = await dl.load(context.state.decodedUser?.id!);
       if (user?.answers) {
         const questionsWithoutAnswers = questions
           .filter(question =>
@@ -36,12 +39,13 @@ export class QuestionResolver {
   @Authorized()
   @Mutation(() => Result)
   async answers(
-    @Ctx() { state }: ApolloContext,
+    @Ctx() context: ApolloContext,
+    @Info() info: GraphQLResolveInfo,
     @Args() { answers}: Answers,
   ): Promise<Result> {
     try {
-      const user = await UserModel.findById(state.decodedUser!.id!);
-
+      const dl = getUserLoader(info.fieldNodes, context);
+      const user = await dl.load(context.state.decodedUser?.id!);
       // For work with map
       // from mongodb
       const userObj: User = user?.toObject();
@@ -58,13 +62,14 @@ export class QuestionResolver {
         return acc;
       }, 0);
 
-      const newUserScores = userObj?.score ? userObj.score + result : result;
-      user!.score = newUserScores;
+      const newUserScore = userObj?.score ? userObj.score + result : result;
+      user!.score = newUserScore;
       user!.answers = newUserAnswers;
       await user!.save();
 
       return {
-        score: newUserScores
+        newUserScore,
+        correctAnswers: result
       }
     } catch (error) {
       throw error;

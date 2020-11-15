@@ -21,12 +21,15 @@ export class QuestionResolver {
     try {
       const dl = getUserLoader(info.fieldNodes, context);
       const user = await dl.load(context.state.decodedUser?.id!);
-      if (user?.answers) {
+      const userObj = user.toJSON();
+      if (userObj?.answers) {
         const questionsWithoutAnswers = questions
-          .filter(question =>
+          .filter(question => {
             // @ts-ignore
-            user.answers[question.id] === undefined
-          );
+            const answer = userObj.answers[String(question.id)];
+            console.log(answer);
+            return answer === undefined
+          });
         return _.shuffle(questionsWithoutAnswers).slice(0, 10);
       }
 
@@ -48,7 +51,7 @@ export class QuestionResolver {
       const user = await dl.load(context.state.decodedUser?.id!);
       // For work with map
       // from mongodb
-      const userObj: User = user?.toObject();
+      const userObj: User = user.toJSON();
       const newUserAnswers = userObj?.answers ? {
         ...answers,
         ...userObj.answers,

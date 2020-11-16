@@ -47,7 +47,7 @@ export class ProductResolver {
       if (!product?.count) throw new Error('Эти призы закончились');
       if (!userObj.score) {
         return {
-          newScore: user!.score
+          newScore: 0
         }
       }
 
@@ -90,7 +90,7 @@ export class ProductResolver {
   async images(
     @Root() { images }: Product
   ) {
-    return images.map(img => CONFIG.urls.http + 'static/' + img);
-    // return images.map(img => 'http://api.finfest-tyumen.ru/static/' + img);
+    // return images.map(img => CONFIG.urls.http + 'static/' + img);
+    return images.map(img => 'http://api.finfest-tyumen.ru/static/' + img);
   }
 }

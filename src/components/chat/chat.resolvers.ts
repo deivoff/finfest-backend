@@ -1,20 +1,27 @@
-import { PubSubEngine } from "graphql-subscriptions";
-import {
-  Resolver,
-  Mutation,
-  Arg,
-  PubSub,
-  Subscription,
-  Root,
-  Ctx,
-  Authorized,
-} from 'type-graphql';
-import { Message } from './chat.entity';
+import { PubSubEngine } from 'graphql-subscriptions';
+import { Arg, Args, Authorized, Ctx, Mutation, PubSub, Query, Resolver, Root, Subscription } from 'type-graphql';
+import { Message, MessageArgs, MessageModel } from '.';
 import { ApolloContext } from '$types/index';
 
 
 @Resolver()
 export class ChatResolver {
+
+  @Query(() => [Message])
+  async getLastTwentyMessages(
+    @Args() { topic }: MessageArgs,
+  ): Promise<Message[]> {
+    try {
+      return await MessageModel.find({
+        topic,
+      }, null, {
+        limit: 20,
+        sort: { $natural: -1 }
+      });
+    } catch (e) {
+      throw e;
+    }
+  }
 
   @Authorized()
   @Mutation(() => Boolean)
@@ -28,15 +35,20 @@ export class ChatResolver {
     const avatar = state.decodedUser?.photos?.length ?
       state.decodedUser?.photos[0] : undefined;
 
-    const payload: Message = {
+    const messageModel = new MessageModel({
       message,
       author,
       avatar,
-      date: new Date()
-    };
+      topic,
+    });
 
-    await pubSub.publish(topic, payload);
-    return true
+    try {
+      const messageObj = await messageModel.save();
+      await pubSub.publish(topic, messageObj.toJSON());
+      return true
+    } catch (e) {
+      throw e
+    }
   }
 
 

@@ -15,6 +15,17 @@ export class UserResolvers {
     }
   }
 
+
+  @Authorized()
+  @Query(() => [User])
+  async usersWithCodes() {
+    try {
+      return await UserModel.find({'productCodes.0': { $exists: true } });
+    } catch (error) {
+      throw error;
+    }
+  }
+
   @Subscription(() => Boolean, {
     topics: 'NEW_USER',
   })

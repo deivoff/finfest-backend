@@ -1,10 +1,12 @@
 import DataLoader from 'dataloader';
+import { DocumentType} from '@typegoose/typegoose';
 import { ObjectId } from 'mongodb';
 import { ApolloContext } from '$types/index';
 
-import { UserModel } from '.';
+import { UserModel, User } from '.';
 
-export const getUserLoader = (key, { dataloaders }: ApolloContext) => {
+type UserLoader = DataLoader<string | ObjectId, DocumentType<User>, string>
+export const getUserLoader = (key, { dataloaders }: ApolloContext): UserLoader => {
   let dl = dataloaders.get(key);
   if (!dl) {
     dl = new DataLoader(async (keys: readonly (string | ObjectId)[]) => {

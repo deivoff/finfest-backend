@@ -23,6 +23,11 @@ class VKProvider {
   id!: string;
 
   @Field()
+  get link(): string {
+    return 'https://vk.com/id' + this.id
+  }
+
+  @Field()
   @Property({ required: true })
   token!: string;
 

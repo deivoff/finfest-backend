@@ -28,6 +28,4 @@ jobs:
             build
             node_modules
 
-  release:
-    runs-on: ubuntu-latest
 

@@ -27,8 +27,14 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
-          source: "build,package.json"
+          source: "build,package.json,yarn.lock"
           target: "~/finfest/backend"
-
-
-
+      - name: Instal dependencies on VPS and restart Node server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ~/finfest/backend
+            yarn install --production

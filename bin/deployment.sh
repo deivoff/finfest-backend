@@ -1,7 +1,6 @@
 #!/bin/bash
 
 yarn install --production
-cd ../
 
 NODE_ENV=$1
 PORT=$2

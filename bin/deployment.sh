@@ -13,7 +13,7 @@ DB_URL=$7
 
 SECRET_KEY=$8
 VK_CLIENT_ID=$9
-VK_CLIENT_SECRET=$10
+VK_CLIENT_SECRET=${10}
 
 echo "module.exports = {
   apps: [{

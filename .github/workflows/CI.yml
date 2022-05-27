@@ -35,4 +35,6 @@ jobs:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PASS }}
-          script: sh ~/finfest/backend/bin/deployment.sh
+          script: |
+            cd ~/finfest/backend
+            sh ~./bin/deployment.sh

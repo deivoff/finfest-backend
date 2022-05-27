@@ -15,9 +15,11 @@ SECRET_KEY=$8
 VK_CLIENT_ID=$9
 VK_CLIENT_SECRET=${10}
 
+PROJECT_NAME='FinFest'
+
 echo "module.exports = {
   apps: [{
-    name: 'FinFestBackend',
+    name: '$PROJECT_NAME',
     port: '$PORT',
     script: '$PWD/build/index.js',
     env: {
@@ -35,3 +37,6 @@ echo "module.exports = {
     },
   }],
 };" >| ecosystem.config.js
+
+pm2 delete $PROJECT_NAME
+pm2 start

@@ -26,6 +26,5 @@ jobs:
           name: build
           path: |
             build
-            node_modules
 
 

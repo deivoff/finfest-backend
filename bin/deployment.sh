@@ -4,7 +4,7 @@ yarn install --production
 
 NODE_ENV=$1
 PORT=$2
-URL=$3
+URI=$3
 
 DB_NAME=$4
 DB_PASS=$5
@@ -19,12 +19,12 @@ echo "module.exports = {
   apps: [{
     name: 'FinFestBackend',
     port: '$PORT',
-    script: './build/index.js',
+    script: '$PWD/build/index.js',
     env: {
       NODE_ENV: '$NODE_ENV',
       PORT: '$PORT',
-      ORIGIN_URL: 'https://$URl/',
-      WS_ORIGIN_URL: 'wss://$URl/',
+      ORIGIN_URL: 'https://$URI/',
+      WS_ORIGIN_URL: 'wss://$URI/',
       DB_NAME: '$DB_NAME',
       DB_URL: '$DB_URL',
       DB_USER: '$DB_USER',

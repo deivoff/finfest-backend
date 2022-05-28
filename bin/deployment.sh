@@ -40,3 +40,4 @@ echo "module.exports = {
 
 pm2 delete $PROJECT_NAME
 pm2 start
+rm ecosystem.config.js

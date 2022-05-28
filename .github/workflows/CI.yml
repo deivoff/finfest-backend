@@ -38,3 +38,4 @@ jobs:
           script: |
             cd ${{ secrets.BUILD_PATH }}
             sh ./bin/deployment.sh '${{ secrets.NODE_ENV }}' '${{ secrets.PORT }}' '${{ secrets.URI }}' '${{ secrets.DB_NAME }}' '${{ secrets.DB_PASS }}' '${{ secrets.DB_USER }}' '${{ secrets.DB_URL }}' '${{ secrets.SECRET_KEY }}' '${{ secrets.VK_CLIENT_ID }}' '${{ secrets.VK_CLIENT_SECRET }}'
+            rm -rf ./bin
